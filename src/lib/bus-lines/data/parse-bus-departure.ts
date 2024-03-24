@@ -1,4 +1,4 @@
-import type { Departure, DepartureConditionsMap } from '$lib/bus-lines/types';
+import type { CarriersMap, Departure, DepartureConditionsMap } from '$lib/bus-lines/types';
 import { Temporal } from 'temporal-polyfill';
 
 type ValidDepartureConditionSymbol<TConditionsMap extends DepartureConditionsMap> = Extract<
@@ -7,8 +7,15 @@ type ValidDepartureConditionSymbol<TConditionsMap extends DepartureConditionsMap
 >;
 
 export const parseBusDeparture =
-	<TConditionsMap extends DepartureConditionsMap>(conditionsMap: TConditionsMap) =>
-	(time: string, conditions: ValidDepartureConditionSymbol<TConditionsMap>[]): Departure => {
+	<TConditionsMap extends DepartureConditionsMap, TCarriersMap extends CarriersMap>(
+		conditionsMap: TConditionsMap,
+		carriersMap: TCarriersMap,
+	) =>
+	(
+		time: string,
+		conditions: ValidDepartureConditionSymbol<TConditionsMap>[],
+		carrierNumber: Extract<keyof TCarriersMap, number>,
+	): Departure => {
 		return {
 			time: Temporal.PlainTime.from(time),
 			conditions: conditions.map((symbol) => ({
@@ -16,6 +23,7 @@ export const parseBusDeparture =
 				// TODO: report error when such a condition does not exist
 				filter: conditionsMap[symbol],
 			})),
-			carrier: { name: 'TODO', phoneNumber: 'TODO' },
+			// TODO: report error when the carrier does not exist
+			carrier: carriersMap[carrierNumber],
 		};
 	};

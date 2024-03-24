@@ -19,4 +19,15 @@ describe('Krasnystaw departures', () => {
 			}),
 		);
 	});
+
+	it('all have defined carriers', () => {
+		krasnystawDepartures.forEach((departure) => {
+			expect
+				.soft(
+					departure.carrier,
+					`Verifying carrier for departure ${departure.time.toString({ smallestUnit: 'minute' })}`,
+				)
+				.toBeDefined();
+		});
+	});
 });

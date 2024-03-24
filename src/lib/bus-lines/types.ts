@@ -16,6 +16,8 @@ export interface Carrier {
 	phoneNumber: string;
 }
 
+export type CarriersMap = Record<number, Carrier>;
+
 /** Whether a bus should depart on a given date */
 export interface DepartureCondition {
 	symbol: string;
