@@ -1,5 +1,5 @@
 {
 	"title": "Buses from Lublin to Krasnystaw on {date}",
 	"submit": "Submit",
-	"departures": "Departures on {date}"
+	"departures": "Departures from Lublin to Krasnystaw on {date}"
 }
