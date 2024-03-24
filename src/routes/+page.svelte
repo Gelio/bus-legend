@@ -1,25 +1,36 @@
 <script lang="ts">
-	import { krasnystawDepartures } from '$lib/bus-lines/data/lublin/lines/krasnystaw';
-	import { Temporal } from 'temporal-polyfill';
+	import type { PageData } from './$types';
 
-	let date = $state(Temporal.Now.plainDateISO().toString());
-
-	let departuresOnDate = $derived.by(() => {
-		if (date === '') {
-			return [];
-		}
-
-		const plainDate = Temporal.PlainDate.from(date);
-		return krasnystawDepartures.filter((departure) =>
-			departure.conditions.every((condition) => condition.filter(plainDate)),
-		);
-	});
+	interface Props {
+		data: PageData;
+	}
+	let { data }: Props = $props();
 </script>
 
-<input type="date" bind:value={date} />
+<svelte:head>
+	<title>Buses from Lublin to Krasnystaw on {data.date}</title>
+</svelte:head>
+
+<form action="/" data-sveltekit-keepfocus>
+	<input
+		type="date"
+		name="date"
+		value={data.date}
+		onchange={(event) => {
+			if (event.currentTarget.value !== '') {
+				document.forms[0].requestSubmit();
+			}
+		}}
+	/>
+	<noscript>
+		<button type="submit">Submit</button>
+	</noscript>
+</form>
+
+<h2 class="my-4 text-2xl text-sky-700">Departures on {data.date}</h2>
 
 <ul>
-	{#each departuresOnDate as departure}
-		<li>{departure.time.toString({ smallestUnit: 'minute' })}</li>
+	{#each data.departures as departure}
+		<li>{departure}</li>
 	{/each}
 </ul>
