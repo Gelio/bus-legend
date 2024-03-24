@@ -41,6 +41,7 @@
 	"type": "module",
 	"dependencies": {
 		"date-easter": "^1.0.3",
+		"svelte-intl-precompile": "^0.12.3",
 		"temporal-polyfill": "^0.2.3"
 	}
 }
