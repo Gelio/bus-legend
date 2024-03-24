@@ -21,6 +21,6 @@
 	});
 </script>
 
-<div class="h-screen bg-gradient-to-b from-cyan-500 to-blue-500">
+<div class="min-h-screen bg-gradient-to-b from-cyan-500 to-blue-500">
 	<slot />
 </div>
