@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import { t } from 'svelte-intl-precompile';
 
 	interface Props {
 		data: PageData;
@@ -7,8 +8,15 @@
 	let { data }: Props = $props();
 </script>
 
+<!--
+NOTE: ESLint prints false-positives when using $t
+https://github.com/sveltejs/eslint-plugin-svelte/issues/652
+-->
+
 <svelte:head>
-	<title>Buses from Lublin to Krasnystaw on {data.date}</title>
+	<title>
+		{$t('title', { values: { date: data.date } })}
+	</title>
 </svelte:head>
 
 <form action="/" data-sveltekit-keepfocus>
@@ -23,11 +31,13 @@
 		}}
 	/>
 	<noscript>
-		<button type="submit">Submit</button>
+		<button type="submit">{$t('submit')}</button>
 	</noscript>
 </form>
 
-<h2 class="my-4 text-2xl text-sky-700">Departures on {data.date}</h2>
+<h2 class="my-4 text-2xl text-sky-700">
+	{$t('departures', { values: { date: data.date } })}
+</h2>
 
 <ul>
 	{#each data.departures as departure}
